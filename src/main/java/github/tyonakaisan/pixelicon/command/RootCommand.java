@@ -1,4 +1,4 @@
-package github.tyonakaisan.example.command;
+package github.tyonakaisan.pixelicon.command;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;

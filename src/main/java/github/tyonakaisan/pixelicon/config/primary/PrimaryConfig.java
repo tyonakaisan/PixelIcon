@@ -1,4 +1,4 @@
-package github.tyonakaisan.example.config.primary;
+package github.tyonakaisan.pixelicon.config.primary;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;

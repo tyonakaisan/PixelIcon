@@ -1,8 +1,8 @@
-package github.tyonakaisan.example.config;
+package github.tyonakaisan.pixelicon.config;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import github.tyonakaisan.example.config.primary.PrimaryConfig;
+import github.tyonakaisan.pixelicon.config.primary.PrimaryConfig;
 import net.kyori.adventure.serializer.configurate4.ConfigurateComponentSerializer;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.minimessage.MiniMessage;

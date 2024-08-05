@@ -30,7 +30,7 @@ dependencies {
     paperLibrary("com.google.inject", "guice", "7.0.0")
 }
 
-version = "1.0.0"
+version = "0.0.1-SNAPSHOT"
 
 paper {
     authors = listOf("tyonakaisan")
@@ -39,10 +39,10 @@ paper {
     generateLibrariesJson = true
     foliaSupported = false
 
-    val mainPackage = "github.tyonakaisan.example"
-    main = "$mainPackage.Example"
-    bootstrapper = "$mainPackage.ExampleBootstrap"
-    loader = "$mainPackage.ExampleLoader"
+    val mainPackage = "github.tyonakaisan.pixelicon"
+    main = "$mainPackage.PixelIcon"
+    bootstrapper = "$mainPackage.PixelIconBootstrap"
+    loader = "$mainPackage.PixelIconLoader"
 
     serverDependencies {
     }

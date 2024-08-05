@@ -1,4 +1,4 @@
-package github.tyonakaisan.example.command;
+package github.tyonakaisan.pixelicon.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -6,7 +6,7 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
-public interface ExampleCommand {
+public interface PixelIconCommand {
 
     LiteralArgumentBuilder<CommandSourceStack> init();
 

@@ -1,11 +1,11 @@
-package github.tyonakaisan.example.command.commands;
+package github.tyonakaisan.pixelicon.command.commands;
 
 import com.google.inject.Inject;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.ArgumentBuilder;
-import github.tyonakaisan.example.command.RootCommand;
-import github.tyonakaisan.example.config.ConfigFactory;
-import github.tyonakaisan.example.message.Messages;
+import github.tyonakaisan.pixelicon.command.RootCommand;
+import github.tyonakaisan.pixelicon.config.ConfigFactory;
+import github.tyonakaisan.pixelicon.message.Messages;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -32,13 +32,13 @@ public final class ReloadCommand implements RootCommand {
     @Override
     public ArgumentBuilder<CommandSourceStack, ?> root() {
         return literal("reload")
-                .requires(source -> source.getSender().hasPermission("example.command.reload"))
+                .requires(source -> source.getSender().hasPermission("pixelicon.command.reload"))
                 .executes(context -> {
                     final CommandSender sender = context.getSource().getSender();
                     this.configFactory.reloadPrimaryConfig();
                     this.messages.reloadMessage();
 
-                    sender.sendMessage(Messages.translate("example.reload", sender));
+                    sender.sendMessage(Messages.translate("pixelicon.reload", sender));
 
                     return Command.SINGLE_SUCCESS;
                 });

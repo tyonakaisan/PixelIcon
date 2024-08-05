@@ -1,4 +1,4 @@
-package github.tyonakaisan.example.command;
+package github.tyonakaisan.pixelicon.command;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -39,7 +39,7 @@ public final class CommandFactory {
     }
 
     private void registerCommands(final Commands registrar) {
-        final Set<ExampleCommand> commands = this.injector.getInstance(Key.get(new TypeLiteral<>() {}));
+        final Set<PixelIconCommand> commands = this.injector.getInstance(Key.get(new TypeLiteral<>() {}));
         commands.forEach(command -> registrar.register(command.init().build(), command.description(), command.aliases()));
     }
 }

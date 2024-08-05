@@ -1,11 +1,11 @@
-package github.tyonakaisan.example;
+package github.tyonakaisan.pixelicon;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
-import github.tyonakaisan.example.command.ExampleCommand;
-import github.tyonakaisan.example.command.commands.ExampleRootCommand;
-import github.tyonakaisan.example.listener.ExampleListener;
+import github.tyonakaisan.pixelicon.command.PixelIconCommand;
+import github.tyonakaisan.pixelicon.command.commands.PixelIconRootCommand;
+import github.tyonakaisan.pixelicon.listener.PixelIconListener;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.plugin.configuration.PluginMeta;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
@@ -39,11 +39,11 @@ public final class BootstrapModule extends AbstractModule {
 
     private void configureListener() {
         final Multibinder<Listener> listeners = Multibinder.newSetBinder(this.binder(), Listener.class);
-        listeners.addBinding().to(ExampleListener.class).in(Scopes.SINGLETON);
+        listeners.addBinding().to(PixelIconListener.class).in(Scopes.SINGLETON);
     }
 
     private void configureCommand() {
-        final Multibinder<ExampleCommand> commands = Multibinder.newSetBinder(this.binder(), ExampleCommand.class);
-        commands.addBinding().to(ExampleRootCommand.class).in(Scopes.SINGLETON);
+        final Multibinder<PixelIconCommand> commands = Multibinder.newSetBinder(this.binder(), PixelIconCommand.class);
+        commands.addBinding().to(PixelIconRootCommand.class).in(Scopes.SINGLETON);
     }
 }

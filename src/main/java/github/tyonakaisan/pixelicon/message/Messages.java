@@ -1,4 +1,4 @@
-package github.tyonakaisan.example.message;
+package github.tyonakaisan.pixelicon.message;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -47,9 +47,9 @@ public final class Messages {
     );
     private final Pattern pattern = Pattern.compile("messages_(.+)\\.properties");
     private static final String BUNDLE = "locale.messages";
-    private static final String PREFIX = "<white>[<gradient:#005aa7:#fffde4>Example</gradient>]</white>";
+    private static final String PREFIX = "<white>[<gradient:#00c3ff:#ffff1c>PixelIcon</gradient>]</white>";
 
-    private static final Key key = Key.key("example", "translation");
+    private static final Key key = Key.key("pixel_icon", "translation");
     private TranslationRegistry registry = TranslationRegistry.create(key);
 
     @Inject
@@ -83,12 +83,21 @@ public final class Messages {
         this.registry = TranslationRegistry.create(key);
         this.registry.defaultLocale(Locale.US);
 
+        if (!Files.exists(this.messagesDir)) {
+            try {
+                Files.createDirectories(this.messagesDir);
+            } catch (final IOException e) {
+                this.logger.error(String.format("Failed to create directory %s", this.messagesDir), e);
+            }
+        }
+
         // Create supported locales
         this.createSupportedLocales(this.messagesDir);
 
         // Load messages_*.properties locale
         try (final Stream<Path> paths = Files.list(this.messagesDir)) {
             paths.filter(Files::isRegularFile)
+                    .filter(file -> file.getFileName().toString().endsWith(".properties"))
                     .forEach(this::loadMatchFile);
         } catch (final IOException e) {
             this.logger.error("Failed to load locales.", e);
@@ -131,7 +140,7 @@ public final class Messages {
             properties.store(writer, null);
             this.logger.info("Successfully '{}' created!", path.getFileName());
         } catch (final IOException e) {
-            this.logger.error("Failed to create '{}'", bundle.getLocale(), e);
+            this.logger.error("Failed to create '{}'", path.getFileName(), e);
         }
     }
 
@@ -141,7 +150,7 @@ public final class Messages {
             final @Nullable Locale locale = Translator.parseLocale(matcher.group(1));
 
             if (locale == null) {
-                this.logger.warn("Invalid locale: {}", path.getFileName());
+                this.logger.warn("Invalid locale file: {}", path.getFileName());
             } else {
                 this.load(locale, path);
             }

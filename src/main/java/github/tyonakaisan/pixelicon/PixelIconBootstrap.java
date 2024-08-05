@@ -1,8 +1,8 @@
-package github.tyonakaisan.example;
+package github.tyonakaisan.pixelicon;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import github.tyonakaisan.example.command.CommandFactory;
+import github.tyonakaisan.pixelicon.command.CommandFactory;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.plugin.bootstrap.PluginBootstrap;
 import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"UnstableApiUsage", "unused"})
 @DefaultQualifier(NonNull.class)
-public final class ExampleBootstrap implements PluginBootstrap {
+public final class PixelIconBootstrap implements PluginBootstrap {
 
     private @MonotonicNonNull Injector injector;
 
@@ -26,6 +26,6 @@ public final class ExampleBootstrap implements PluginBootstrap {
 
     @Override
     public @NotNull JavaPlugin createPlugin(final PluginProviderContext context) {
-        return new Example(this.injector);
+        return new PixelIcon(this.injector);
     }
 }

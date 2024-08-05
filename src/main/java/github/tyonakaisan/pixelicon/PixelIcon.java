@@ -1,7 +1,8 @@
-package github.tyonakaisan.example;
+package github.tyonakaisan.pixelicon;
 
 import com.google.inject.*;
-import github.tyonakaisan.example.command.CommandFactory;
+import github.tyonakaisan.pixelicon.command.CommandFactory;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -11,17 +12,17 @@ import java.util.Set;
 
 @DefaultQualifier(NonNull.class)
 @Singleton
-public final class Example extends JavaPlugin {
+public final class PixelIcon extends JavaPlugin {
 
     private final Injector injector;
 
     @Inject
-    public Example(
+    public PixelIcon(
             final Injector bootstrapInjector
     ) {
-        this.injector = bootstrapInjector.createChildInjector(new ExampleModule(this));
+        this.injector = bootstrapInjector.createChildInjector(new PixelIconModule(this));
 
-        ExampleProvider.register(this);
+        PixelIconProvider.register(this);
     }
 
     @Override
@@ -29,16 +30,10 @@ public final class Example extends JavaPlugin {
 
         final Set<Listener> listeners = this.injector.getInstance(Key.get(new TypeLiteral<>() {}));
         listeners.forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
-
-        this.injector.getInstance(CommandFactory.class).registerViaEnable(this);
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-    }
-
-    Injector injector() {
-        return this.injector;
     }
 }
