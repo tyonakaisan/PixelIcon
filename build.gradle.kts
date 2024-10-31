@@ -1,12 +1,13 @@
+import net.minecrell.pluginyml.paper.PaperPluginDescription
+
 plugins {
     id("java")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("xyz.jpenilla.run-paper") version "2.3.0"
-    id("net.minecrell.plugin-yml.paper") version "0.6.0"
+    alias(libs.plugins.shadow)
+    alias(libs.plugins.run.paper)
+    alias(libs.plugins.plugin.yml.paper)
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
     maven("https://jitpack.io")
     maven("https://oss.sonatype.org/content/repositories/snapshots/")
@@ -17,17 +18,21 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("net.objecthunter", "exp4j", "0.4.8")
+    testImplementation(libs.exp4j)
 
     // Paper
-    compileOnly("io.papermc.paper", "paper-api", "1.21-R0.1-SNAPSHOT")
+    compileOnly(libs.paper.api)
+
+    // Plugin
+    compileOnly(libs.carbonchat)
+    compileOnly(libs.miniplaceholders.api)
 
     // Config
-    paperLibrary("org.spongepowered", "configurate-hocon", "4.2.0-SNAPSHOT")
-    paperLibrary("net.kyori", "adventure-serializer-configurate4", "4.17.0")
+    paperLibrary(libs.configurate.hocon) // sometimes error occur.
+    paperLibrary(libs.adventure.serializer.configurate4)
 
     // Others
-    paperLibrary("com.google.inject", "guice", "7.0.0")
+    paperLibrary(libs.guice)
 }
 
 version = "0.0.1-SNAPSHOT"
@@ -45,10 +50,23 @@ paper {
     loader = "$mainPackage.PixelIconLoader"
 
     serverDependencies {
+        register("MiniPlaceholders") {
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+            required = false
+        }
     }
 }
 
 tasks {
+    val paperPlugins = runPaper.downloadPluginsSpec {
+        // MiniPlaceholders
+        // github("MiniPlaceholders", "MiniPlaceholders", "2.2.4", "MiniPlaceholders-Paper-2.2.4.jar")
+        // Carbon
+        // github("Hexaoxide", "Carbon", "v${libs.versions.carbonchat.get()}", "carbonchat-paper-${libs.versions.carbonchat.get()}.jar")
+        // LuckPerms
+        url("https://download.luckperms.net/1552/bukkit/loader/LuckPerms-Bukkit-5.4.137.jar")
+    }
+
     compileJava {
         this.options.encoding = Charsets.UTF_8.name()
         options.release.set(21)
@@ -59,7 +77,10 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.21")
+        minecraftVersion("1.21.1")
+        downloadPlugins {
+            downloadPlugins.from(paperPlugins)
+        }
     }
 
     test {

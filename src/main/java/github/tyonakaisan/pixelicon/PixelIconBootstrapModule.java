@@ -17,11 +17,11 @@ import java.nio.file.Path;
 
 @SuppressWarnings("UnstableApiUsage")
 @DefaultQualifier(NonNull.class)
-public final class BootstrapModule extends AbstractModule {
+public final class PixelIconBootstrapModule extends AbstractModule {
 
     private final BootstrapContext context;
 
-    BootstrapModule(
+    PixelIconBootstrapModule(
             final BootstrapContext context
     ) {
         this.context = context;

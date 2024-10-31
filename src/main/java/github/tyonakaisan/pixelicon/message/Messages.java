@@ -41,7 +41,7 @@ public final class Messages {
     private final Path messagesDir;
 
     private final Map<Locale, ResourceBundle> locales = new HashMap<>();
-    private final Map<Locale, String> defaultLocales = Map.of(
+    private final Map<Locale, String> supportedLocales = Map.of(
             Locale.JAPAN, "messages_ja_JP",
             Locale.US, "messages_en_US"
     );
@@ -60,15 +60,32 @@ public final class Messages {
         this.logger = logger;
         this.messagesDir = dataDirectory.resolve("locale");
 
-        if (!Files.exists(this.messagesDir)) {
-            try {
-                Files.createDirectories(this.messagesDir);
-            } catch (final IOException e) {
-                this.logger.error(String.format("Failed to create directory %s", this.messagesDir), e);
-            }
-        }
-
         this.reloadMessage();
+    }
+
+    public static Component translate(final @PropertyKey(resourceBundle = BUNDLE) String key, final Audience audience) {
+        return format(key, audience, TagResolver.empty());
+    }
+
+    public static Component translate(final @PropertyKey(resourceBundle = BUNDLE) String key, final Audience audience, final Consumer<TagResolver.Builder> builder) {
+        final var tagResolver = TagResolver.builder();
+        builder.accept(tagResolver);
+        return format(key, audience, tagResolver.build());
+    }
+
+    private static Component format(final @PropertyKey(resourceBundle = BUNDLE) String key, final Audience audience, final TagResolver tagResolver) {
+        final var withPrefixTagResolver = TagResolver.builder()
+                .tag("prefix", Tag.inserting(MiniMessage.miniMessage().deserialize(PREFIX)))
+                .resolver(tagResolver)
+                .build();
+        final var component = Component.empty()
+                .decoration(TextDecoration.ITALIC, false);
+        final var locale = audience.pointers().getOrDefault(Identity.LOCALE, Locale.US);
+        final @Nullable MessageFormat message = GlobalTranslator.translator().translate(key, locale);
+
+        return message != null
+                ? component.append(MiniMessage.miniMessage().deserialize(message.toPattern(), withPrefixTagResolver))
+                : component.append(Component.translatable(key));
     }
 
     public void reloadMessage() {
@@ -110,7 +127,7 @@ public final class Messages {
     }
 
     private void createSupportedLocales(final Path path) {
-        for (final Map.Entry<Locale, String> localesEntry : this.defaultLocales.entrySet()) {
+        for (final Map.Entry<Locale, String> localesEntry : this.supportedLocales.entrySet()) {
             final var locale = localesEntry.getKey();
             final var fileName = localesEntry.getValue();
             final var localePath = path.resolve(fileName + ".properties");
@@ -165,31 +182,5 @@ public final class Messages {
         } catch (final Exception e) {
             this.logger.error(String.format("Failed to load %s", path.getFileName()), e);
         }
-    }
-
-    // GlobalTranslator
-    public static Component translate(final @PropertyKey(resourceBundle = BUNDLE) String key, final Audience audience) {
-        return format(key, audience, TagResolver.empty());
-    }
-
-    public static Component translate(final @PropertyKey(resourceBundle = BUNDLE) String key, final Audience audience, final Consumer<TagResolver.Builder> builder) {
-        final var tagResolver = TagResolver.builder();
-        builder.accept(tagResolver);
-        return format(key, audience, tagResolver.build());
-    }
-
-    private static Component format(final @PropertyKey(resourceBundle = BUNDLE) String key, final Audience audience, final TagResolver tagResolver) {
-        final var withPrefixTagResolver = TagResolver.builder()
-                .tag("prefix", Tag.inserting(MiniMessage.miniMessage().deserialize(PREFIX)))
-                .resolver(tagResolver)
-                .build();
-        final var component = Component.empty()
-                .decoration(TextDecoration.ITALIC, false);
-        final var locale = audience.pointers().getOrDefault(Identity.LOCALE, Locale.US);
-        final @Nullable MessageFormat message = GlobalTranslator.translator().translate(key, locale);
-
-        return message != null
-                ? component.append(MiniMessage.miniMessage().deserialize(message.toPattern(), withPrefixTagResolver))
-                : component.append(Component.translatable(key));
     }
 }

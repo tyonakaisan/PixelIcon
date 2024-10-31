@@ -7,7 +7,6 @@ import github.tyonakaisan.pixelicon.command.RootCommand;
 import github.tyonakaisan.pixelicon.config.ConfigFactory;
 import github.tyonakaisan.pixelicon.message.Messages;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
-import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
 
@@ -34,10 +33,9 @@ public final class ReloadCommand implements RootCommand {
         return literal("reload")
                 .requires(source -> source.getSender().hasPermission("pixelicon.command.reload"))
                 .executes(context -> {
-                    final CommandSender sender = context.getSource().getSender();
+                    final var sender = context.getSource().getSender();
                     this.configFactory.reloadPrimaryConfig();
                     this.messages.reloadMessage();
-
                     sender.sendMessage(Messages.translate("pixelicon.reload", sender));
 
                     return Command.SINGLE_SUCCESS;

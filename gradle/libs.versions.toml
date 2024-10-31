@@ -1,0 +1,34 @@
+[versions]
+run-paper = "2.3.0"
+shadow = "8.1.1"
+plugin-yml-paper = "0.6.0"
+
+paper-api = "1.21-R0.1-SNAPSHOT"
+
+carbonchat = "3.0.0-beta.27"
+miniplaceholders-api = "2.2.3"
+
+configurate-hocon = "4.2.0-SNAPSHOT"
+adventure-serializer-configurate4 = "4.17.0"
+
+guice = "7.0.0"
+checker-qual = "3.44.0"
+exp4j = "0.4.8"
+
+[plugins]
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+run-paper = { id = "xyz.jpenilla.run-paper", version.ref = "run-paper" }
+plugin-yml-paper = { id = "net.minecrell.plugin-yml.paper", version.ref = "plugin-yml-paper" }
+
+[libraries]
+paper-api = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper-api" }
+
+carbonchat = { group = "de.hexaoxi", name = "carbonchat-api", version.ref = "carbonchat" }
+miniplaceholders-api = { group = "io.github.miniplaceholders", name = "miniplaceholders-api", version.ref = "miniplaceholders-api" }
+
+configurate-hocon = { group = "org.spongepowered", name = "configurate-hocon", version.ref = "configurate-hocon" }
+adventure-serializer-configurate4 = { group = "net.kyori", name = "adventure-serializer-configurate4", version.ref = "adventure-serializer-configurate4" }
+
+checker-qual = { group = "org.checkerframework", name = "checker-qual", version.ref = "checker-qual" }
+guice = { group = "com.google.inject", name = "guice", version.ref = "guice" }
+exp4j = { group = "net.objecthunter", name = "exp4j", version.ref = "exp4j" }

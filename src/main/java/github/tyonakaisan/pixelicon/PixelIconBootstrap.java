@@ -20,8 +20,8 @@ public final class PixelIconBootstrap implements PluginBootstrap {
 
     @Override
     public void bootstrap(final BootstrapContext context) {
-        this.injector = Guice.createInjector(new BootstrapModule(context));
-        this.injector.getInstance(CommandFactory.class).registerViaBootstrap(context);
+        this.injector = Guice.createInjector(new PixelIconBootstrapModule(context));
+        this.injector.getInstance(CommandFactory.class).register(context);
     }
 
     @Override

@@ -28,12 +28,12 @@ public final class CommandFactory {
         this.injector = injector;
     }
 
-    public void registerViaBootstrap(final BootstrapContext context) {
+    public void register(final BootstrapContext context) {
         final LifecycleEventManager<BootstrapContext> lifecycleManager = context.getLifecycleManager();
         lifecycleManager.registerEventHandler(LifecycleEvents.COMMANDS, event -> this.registerCommands(event.registrar()));
     }
 
-    public void registerViaEnable(final JavaPlugin plugin) {
+    public void register(final JavaPlugin plugin) {
         final LifecycleEventManager<Plugin> lifecycleManager = plugin.getLifecycleManager();
         lifecycleManager.registerEventHandler(LifecycleEvents.COMMANDS, event -> this.registerCommands(event.registrar()));
     }
